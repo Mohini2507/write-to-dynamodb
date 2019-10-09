@@ -4,7 +4,7 @@ resource "aws_dynamodb_table_item" "example" {
   
   item = <<ITEM
 {
-  "CodeBuildId": {"S": '$codeBuildId'},
+  "CodeBuildId": {"S": "$codeBuildId"},
   "StageName": {"S": "xyz"},
   "Status": {"S": "XYZ"},
   "TimeStamp": {"S": "XYZ"}
