@@ -1,7 +1,7 @@
 resource "aws_dynamodb_table_item" "example" {
   table_name = "restscking-data-store"
   hash_key   = "CodeBuildId"
-  codebuildid = $(echo $codeBuildId)
+  echo "Code build id is " $codeBuildId
   item = <<ITEM
 {
   "CodeBuildId": {"S": "test"},
