@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table_item" "example" {
-  table_name = "restacking-data-store"
+  table_name = "restscking-data-store"
   hash_key   = "CodeBuildId"
   
   item = <<ITEM
