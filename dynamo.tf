@@ -1,7 +1,7 @@
 resource "aws_dynamodb_table_item" "example" {
   table_name = "restscking-data-store"
   hash_key   = "CodeBuildId"
-  
+  echo var.codeBuildId | terraform console
   item = <<ITEM
 {
   "CodeBuildId": {"S": var.codeBuildId},
