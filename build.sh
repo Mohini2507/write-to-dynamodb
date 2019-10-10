@@ -11,7 +11,7 @@ aws dynamodb put-item \
     --item '{
         "CodeBuildId": {"S": "'$codeBuildId'"},
         "StageName": {"S": "Fetching JSON values from S3"} ,
-        "Status": {"S": "In-progress"} ,
+        "StageStatus": {"S": "In-progress"} ,
         "StartTime": {"S": "'$codeBuildStartTime'"} ,
         "EndTime": {"S": "'$codeBuildStartTime'"} }' \
     --return-consumed-capacity TOTAL
@@ -21,8 +21,6 @@ aws dynamodb put-item \
 aws dynamodb update-item \
     --table-name restacking-data-store \
     --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' \
-    --update-expression "SET #sts = :c, #et = :p" \
-    --projection-expression "#sts.#et"  \
+    --update-expression "SET StageStatus = :c, EndTime = :p" \
     --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"EndTime"} }' \
-    --expression-attribute-names '{"#sts": "Status", "#et": "EndTime" }' \
     --return-values ALL_NEW
