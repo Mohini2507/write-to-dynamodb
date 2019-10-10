@@ -8,6 +8,6 @@ aws dynamodb put-item \
     --item '{
         "CodeBuildId": {"S": "No One You Know"},
         "StageName": {"S": "$codeBuildId"} ,
-        "Status": {"S": "{$codeBuildId}"} ,
+        "Status": {"S": "'{$codeBuildId}'"} ,
         "TimeStamp": {"S": "Somewhat Famous"} }' \
     --return-consumed-capacity TOTAL
