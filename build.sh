@@ -12,8 +12,7 @@ aws dynamodb put-item \
         "CodeBuildId": {"S": "'$codeBuildId'"},
         "StageName": {"S": "Fetching JSON values from S3"} ,
         "StageStatus": {"S": "In-progress"} ,
-        "StartTime": {"S": "'$codeBuildStartTime'"} ,
-        "EndTime": {"S": "'$codeBuildStartTime'"} }' \
+        "StartTime": {"S": "'$codeBuildStartTime'"}}' \
     --return-consumed-capacity TOTAL
 
 # export codeBuildEndTime=${echo date +%s}
