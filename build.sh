@@ -16,7 +16,7 @@ aws dynamodb put-item \
     --return-consumed-capacity TOTAL
 
 # export codeBuildEndTime=${echo date +%s}
-
+echo "Current timestamp is " $date
 aws dynamodb update-item \
     --table-name restacking-data-store \
     --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' \
