@@ -7,7 +7,7 @@ aws dynamodb put-item \
     --table-name restscking-data-store \
     --item '{
         "CodeBuildId": {"S": "No One You Know"},
-        "StageName": {"S": "Call Me Today"} ,
-        "Status": {"S": "Call Me Today"} ,
+        "StageName": {"S": "$codeBuildId"} ,
+        "Status": {"S": $codeBuildId} ,
         "TimeStamp": {"S": "Somewhat Famous"} }' \
     --return-consumed-capacity TOTAL
