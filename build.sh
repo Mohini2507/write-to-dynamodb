@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#########################################
+# Stage 1: Fetching JSON values from S3 #
+#########################################
 export codeBuildId=$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
 export codeBuildStartTime=$CODEBUILD_START_TIME
 
@@ -22,4 +25,52 @@ aws dynamodb update-item \
     --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' \
     --update-expression "SET StageStatus = :c, EndTime = :p" \
     --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"'$codeBuildEndTime'"} }' \
+    --return-values ALL_NEW
+
+#############################################
+# Stage 2: Installing packer & creating AMI #
+#############################################
+
+export packerStageStartTime=`date +%s%N | cut -b1-13`
+
+aws dynamodb put-item \
+    --table-name restacking-data-store \
+    --item '{
+        "CodeBuildId": {"S": "'$codeBuildId'"},
+        "StageName": {"S": "Installing packer & creating AMI"} ,
+        "StageStatus": {"S": "In-progress"} ,
+        "StartTime": {"S": "'$packerStageStartTime'"}}' \
+    --return-consumed-capacity TOTAL
+
+export packerStageEndTime=`date +%s%N | cut -b1-13`
+echo "Current timestamp is " $packerStageEndTime
+aws dynamodb update-item \
+    --table-name restacking-data-store \
+    --key '{"StartTime":{"S":"'$packerStageStartTime'"}}' \
+    --update-expression "SET StageStatus = :c, EndTime = :p" \
+    --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"'$packerStageEndTime'"} }' \
+    --return-values ALL_NEW
+
+#########################
+# Stage 3: TBT creation #
+#########################
+
+export tbtCreationStageStartTime=`date +%s%N | cut -b1-13`
+
+aws dynamodb put-item \
+    --table-name restacking-data-store \
+    --item '{
+        "CodeBuildId": {"S": "'$codeBuildId'"},
+        "StageName": {"S": "TBT creation"} ,
+        "StageStatus": {"S": "In-progress"} ,
+        "StartTime": {"S": "'$tbtCreationStageStartTime'"}}' \
+    --return-consumed-capacity TOTAL
+
+export tbtCreationStageEndTime=`date +%s%N | cut -b1-13`
+echo "Current timestamp is " $packerStageEndTime
+aws dynamodb update-item \
+    --table-name restacking-data-store \
+    --key '{"StartTime":{"S":"'$tbtCreationStageStartTime'"}}' \
+    --update-expression "SET StageStatus = :c, EndTime = :p" \
+    --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"'$tbtCreationStageEndTime'"} }' \
     --return-values ALL_NEW
