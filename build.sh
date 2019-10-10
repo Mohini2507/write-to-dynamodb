@@ -15,11 +15,11 @@ aws dynamodb put-item \
         "StartTime": {"S": "'$codeBuildStartTime'"}}' \
     --return-consumed-capacity TOTAL
 
-# export codeBuildEndTime=${echo date +%s}
-echo "Current timestamp is " $date
+export codeBuildEndTime=$date
+echo "Current timestamp is " $codeBuildEndTime
 aws dynamodb update-item \
     --table-name restacking-data-store \
     --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' \
     --update-expression "SET StageStatus = :c, EndTime = :p" \
-    --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"EndTime"} }' \
+    --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"'$codeBuildEndTime'"} }' \
     --return-values ALL_NEW
