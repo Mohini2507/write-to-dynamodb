@@ -19,7 +19,7 @@ aws dynamodb put-item \
 
 aws dynamodb update-item \
     --table-name restacking-data-store \
-    --key '{"EndTime":{"S":"'$codeBuildStartTime'"}}' \
+    --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' \
     --update-expression "SET StageStatus = :c, EndTime = :p" \
     --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"EndTime"} }' \
     --return-values ALL_NEW
