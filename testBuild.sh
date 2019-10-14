@@ -1,5 +1,5 @@
 #!/bin/bash
 export codeBuildStartTime=`date +%s%N | cut -b1-13`
-./writeInputToDBStartTime.sh $codeBuildStartTime
+chmod 700 ./writeInputToDBStartTime.sh $codeBuildStartTime
 export codeBuildEndTime=`date +%s%N | cut -b1-13`
-./writeInputToDBEndTime.sh $codeBuildEndTime
+chmod 700 ./writeInputToDBEndTime.sh $codeBuildEndTime
