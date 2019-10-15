@@ -28,7 +28,10 @@ aws dynamodb update-item \
     --return-values ALL_NEW
 
 echo "Getting item from dynamoDB...."
-aws dynamodb get-item --table-name restacking-data-store --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}'
+touch restack.json
+aws dynamodb get-item --table-name restacking-data-store --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' > restack.json
+export CodeBuildId=`./jq '.CodeBuildId' restack.json`
+echo "CodeBuildId is:" $CodeBuildId
 #############################################
 # Stage 2: Installing packer & creating AMI #
 #############################################
