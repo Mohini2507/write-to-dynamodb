@@ -29,7 +29,9 @@ aws dynamodb update-item \
 
 echo "Getting item from dynamoDB...."
 touch restack.json
+ls
 aws dynamodb get-item --table-name restacking-data-store --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}' > restack.json
+cat restack.json
 export CodeBuildId=`./jq '.CodeBuildId' restack.json`
 echo "CodeBuildId is:" $CodeBuildId
 #############################################
