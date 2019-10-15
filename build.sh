@@ -27,6 +27,8 @@ aws dynamodb update-item \
     --expression-attribute-values '{":c": {"S":"Completed"}, ":p": {"S":"'$codeBuildEndTime'"} }' \
     --return-values ALL_NEW
 
+echo "Getting item from dynamoDB...."
+aws dynamodb get-item --table-name restacking-data-store --key '{"StartTime":{"S":"'$codeBuildStartTime'"}}'
 #############################################
 # Stage 2: Installing packer & creating AMI #
 #############################################
